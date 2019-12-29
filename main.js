@@ -124,13 +124,13 @@ function getMotorTorque() {
   if (app.controllerConnected) {
     return readGamepadValue();
   }
-  return app.pid.kp * -app.theta
-   + app.pid.ki * -app.car.cylinder.omega 
-   + app.pid.kd * -app.car.cylinder.thetaIntegral
-   + app.pidWheels.kp * app.x
-   + app.pidWheels.ki * app.car.wheels.vx 
-   + app.pidWheels.kd * app.car.wheels.xIntegral
-   ;
+  app.inputTau = app.pid.kp * -app.theta
+  + app.pid.ki * -app.car.cylinder.omega 
+  + app.pid.kd * -app.car.cylinder.thetaIntegral
+  + app.pidWheels.kp * app.x
+  + app.pidWheels.ki * app.car.wheels.vx 
+  + app.pidWheels.kd * app.car.wheels.xIntegral;
+  return app.inputTau;
 }
 function getAccelerations() {
   let cos = Math.cos;
