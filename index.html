@@ -71,8 +71,7 @@
       <div class="section">
         <h4 class="ui header">Controller Input</h4>
         <code>
-          target v1: {{input.v1}} <br>
-          target v2: {{input.v2}}
+          inputTau: {{inputTau}}
         </code>
       </div>
       <div class="ui divider"></div>
@@ -109,6 +108,23 @@
       <div class="ui divider"></div>
       <div class="section">
         <h4 class="ui header">Control Methods</h4>
+        <code>
+          PID control (cylinder) 
+          <div class="ui mini labeled input" v-for="(item, key) in pid">
+            <div class="ui label">
+              {{ key }}
+            </div>
+            <input type="text" v-model.number.lazy="pid[key]">
+          </div>
+          <br>
+          PID control (wheels)
+          <div class="ui mini labeled input" v-for="(item, key) in pidWheels">
+            <div class="ui label">
+              {{ key }}
+            </div>
+            <input type="text" v-model.number.lazy="pidWheels[key]">
+          </div>
+        </code>
       </div>
       <!-- ============ section divider ============ -->
       <div class="ui divider"></div>

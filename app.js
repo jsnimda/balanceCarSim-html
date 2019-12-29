@@ -9,7 +9,8 @@ function carProvider() {
       ay: 0,
       theta: 0,
       omega: 0,
-      alpha: 0
+      alpha: 0,
+      xIntegral: 0
     }, 
     cylinder: {
       x: 0,
@@ -20,7 +21,8 @@ function carProvider() {
       ay: 0,
       theta: 0,
       omega: 0,
-      alpha: 0
+      alpha: 0,
+      thetaIntegral: 0
     }
   };
 }
@@ -51,12 +53,9 @@ let app = new Vue({
       thetaDeg: 5
     },
     options: {
-      timesPerSecond: 60000
+      timesPerSecond: 30000
     },
-    input: {
-      v1: 0,
-      v2: 0
-    },
+    inputTau: 0,
     statistics: {
       maxX: 0,
       minX: 0,
@@ -64,6 +63,16 @@ let app = new Vue({
       maxTheta: 0,
       minTheta: 0,
       dTheta: 0,
+    },
+    pid: {
+      kp: 0,
+      ki: 0,
+      kd: 0
+    },
+    pidWheels: {
+      kp: 0,
+      ki: 0,
+      kd: 0
     },
     sketch: {},
     lockViewToCar: false,
@@ -137,7 +146,7 @@ let app = new Vue({
       this.started = false;
       this.running = false;
       setPos();
-      this.static = {
+      this.statistics = {
         maxX: 0,
         minX: 0,
         dx: 0,

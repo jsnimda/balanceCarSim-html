@@ -101,6 +101,7 @@ function doStep(obj, subDt) {
 }
 let lastRem = 0;
 function calc() {
+  if (deltaTime > 1) return;
   let timesPerSecond = app.options.timesPerSecond;
   let timesPerFrameDec = deltaTime * timesPerSecond + lastRem;
   let timesPerFrame = Math.floor(timesPerFrameDec);
@@ -115,10 +116,21 @@ function calc() {
     cylinder.alpha = -alpha2;
     doStep(wheels, subDt);
     doStep(cylinder, subDt);
+    wheels.xIntegral += wheels.x * subDt;
+    cylinder.thetaIntegral += cylinder.theta * subDt;
   }
 }
 function getMotorTorque() {
-  return 0;
+  if (app.controllerConnected) {
+    return readGamepadValue();
+  }
+  return app.pid.kp * -app.theta
+   + app.pid.ki * -app.car.cylinder.omega 
+   + app.pid.kd * -app.car.cylinder.thetaIntegral
+   + app.pidWheels.kp * app.x
+   + app.pidWheels.ki * app.car.wheels.vx 
+   + app.pidWheels.kd * app.car.wheels.xIntegral
+   ;
 }
 function getAccelerations() {
   let cos = Math.cos;
@@ -175,3 +187,8 @@ function readGamepad() {
   app.controlMethods[app.selectedControlMethod].readGamepad();
 }
 
+function readGamepadValue() {
+  let buttons = getGamepadInputs().buttons;
+  app.inputTau = (buttons[7].value - buttons[6].value) * - 50;
+  return app.inputTau;
+}
