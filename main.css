@@ -1,0 +1,30 @@
+.info-panel {
+  position: absolute;
+  background-color: rgba(250, 250, 210, 0.5);
+  padding: 8px;
+  width: 300px;
+}
+
+.info-panel .section {
+  padding: 8px;
+}
+.info-panel .section:not(:first-of-type) {
+  padding-top: 0px;
+}
+.info-panel .section:not(:last-of-type) {
+  padding-bottom: 0px;
+}
+
+.info-panel h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#info-panel-right {
+  right: 0
+}
+
+.p5Canvas {
+  border: 1px black solid;
+  box-sizing: border-box;
+}

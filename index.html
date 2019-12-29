@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Car Sim</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/semantic-ui-vue/dist/umd/semantic-ui-vue.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+  <!-- <script src="p5.svg.js"></script> -->
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+<body>
+  <div id="app">
+    <div id="info-panel-left" class="info-panel">
+      <!-- start info-panel -->
+      <div class="section">
+        <h4 class="ui header">Controller (Gamepad)</h4>
+        Status: {{controllerConnected ? "Connected" : "Not found"}}<br>
+        {{controllerConnected ? controllerName : ""}}<br>
+        <div class="ui small labeled input">
+          <div class="ui label">
+            deadzone
+          </div>
+          <input type="text" v-model.number.lazy="deadzone">
+        </div>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Environment</h4>
+        <code>
+          <div class="ui mini labeled input" v-for="(item, key) in environment">
+            <div class="ui label">
+              {{ key }}
+            </div>
+            <input type="text" v-model.number.lazy="environment[key]">
+          </div>
+        </code>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Initial Values</h4>
+        <code>
+          <div class="ui mini labeled input" v-for="(item, key) in initValues">
+            <div class="ui label">
+              {{ key }}
+            </div>
+            <input type="text" v-model.number.lazy="initValues[key]">
+          </div>
+        </code>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Simulator Options</h4>
+        <code>
+          <div class="ui mini labeled input" v-for="(item, key) in options">
+            <div class="ui label">
+              {{ key }}
+            </div>
+            <input type="text" v-model.number.lazy="options[key]">
+          </div>
+        </code>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Controller Input</h4>
+        <code>
+          target v1: {{input.v1}} <br>
+          target v2: {{input.v2}}
+        </code>
+      </div>
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Car Status</h4>
+        <code>
+          v: {{+v.toFixed(2)}} <br>
+          x: {{+x.toFixed(2)}} <br>
+          theta: {{+thetaDeg.toFixed(2)}} deg
+        </code>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <div class="ui checkbox">
+          <input type="checkbox" name="example" v-model="lockViewToCar">
+          <label>Lock view to car</label>
+        </div>
+        <br>
+        <button class="ui button" onclick="findCenter()">Find center</button>
+        <button class="ui button" onclick="findCar()">Find car</button>
+      </div>
+      <!-- end info-panel -->
+    </div>
+    <!-- ========================================== -->
+    <!-- ============ info-panel-right ============ -->
+    <div id="info-panel-right" class="info-panel">
+      <!-- start info-panel -->
+      <div class="section">
+        <button class="ui button" :class="{ green: !started, yellow: started && running, blue: started && !running }" @click="start">{{ started ? (running ? 'Pause' : 'Continue') : 'Start' }}</button>
+        <button class="ui red button" :disabled="!started" @click="stop">Stop</button>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Control Methods</h4>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Statistics</h4>
+        <code>
+          <template v-for="(item, key) in statistics">
+            {{ key }}: {{ +item.toFixed(2) }} <br>
+          </template>
+        </code>
+      </div>
+      <!-- end info-panel -->
+    </div>
+  </div>
+  <div id="sketch-holder">
+    <!-- Our sketch will go here! -->
+  </div>
+  <script src='common.js'></script>
+  <script src='app.js'></script>
+  <script src='main.js'></script>
+  <script src='sketch.js'></script>
+  <!-- <script src='controlMethods.js'></script> -->
+</body>
+</html>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="200" height="200" viewBox="-100,-100,200,200">
+  <rect x="-54.8" y="-7" width="4.8" height="14" stroke-width="2" fill="yellow" stroke="black" fill-opacity="0.5" />
+  <rect x="50" y="-7" width="4.8" height="14" stroke-width="2" fill="yellow" stroke="black" fill-opacity="0.5" />
+  <path d="M76.210 -44
+           A 88 88 0 0 0 -76.210 -44
+           H -50
+           V 44
+           H -76.210
+           A 88 88 0 0 0 76.210 44
+           H 50
+           V -44
+           Z"
+        stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
+  <path d="M10 -10
+           V-45
+           H 20
+           L0 -78
+           L-20 -45
+           H -10
+           V -10
+           Z"
+        stroke="black" fill="green" stroke-width="5" fill-opacity="0.5" stroke-linejoin="round" />
+  <rect x="54.8" y="-32.45" width="26" height="64.9" stroke-width="2" fill="lightgrey" stroke="black" />
+  <rect x="-80.8" y="-32.45" width="26" height="64.9" stroke-width="2" fill="lightgrey" stroke="black" />
+
+  <!-- <line x1="-80.8" y1=" 32.450" x2="-54.8" y2=" 32.450" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1=" 30.862" x2="-54.8" y2=" 30.862" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1=" 26.253" x2="-54.8" y2=" 26.253" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1=" 19.074" x2="-54.8" y2=" 19.074" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1=" 10.028" x2="-54.8" y2=" 10.028" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1="  0.000" x2="-54.8" y2="  0.000" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1="-10.028" x2="-54.8" y2="-10.028" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1="-19.074" x2="-54.8" y2="-19.074" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1="-26.253" x2="-54.8" y2="-26.253" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1="-30.862" x2="-54.8" y2="-30.862" stroke-width="2" stroke="black" />
+  <line x1="-80.8" y1="-32.450" x2="-54.8" y2="-32.450" stroke-width="2" stroke="black" />
+
+  <line x1="80.8" y1=" 32.450" x2="54.8" y2=" 32.450" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1=" 30.862" x2="54.8" y2=" 30.862" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1=" 26.253" x2="54.8" y2=" 26.253" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1=" 19.074" x2="54.8" y2=" 19.074" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1=" 10.028" x2="54.8" y2=" 10.028" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1="  0.000" x2="54.8" y2="  0.000" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1="-10.028" x2="54.8" y2="-10.028" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1="-19.074" x2="54.8" y2="-19.074" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1="-26.253" x2="54.8" y2="-26.253" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1="-30.862" x2="54.8" y2="-30.862" stroke-width="2" stroke="black" />
+  <line x1="80.8" y1="-32.450" x2="54.8" y2="-32.450" stroke-width="2" stroke="black" /> -->
+</svg>
