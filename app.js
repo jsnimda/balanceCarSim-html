@@ -74,9 +74,12 @@ let app = new Vue({
       ki: 0,
       kd: 0
     },
+    timeT: 0,
+    tauK: 0,
     sketch: {},
     lockViewToCar: false,
     lockAngleToCar: false,
+    cylinderTorque: false,
     started: false,
     running: false,
     controlMethods: [],
@@ -154,6 +157,7 @@ let app = new Vue({
         minTheta: 0,
         dTheta: 0,
       };
+      this.timeT = 0;
     }
   }
 });

@@ -64,23 +64,11 @@
             </div>
             <input type="text" v-model.number.lazy="options[key]">
           </div>
-        </code>
-      </div>
-      <!-- ============ section divider ============ -->
-      <div class="ui divider"></div>
-      <div class="section">
-        <h4 class="ui header">Controller Input</h4>
-        <code>
-          inputTau: {{+inputTau.toFixed(2)}}
-        </code>
-      </div>
-      <div class="ui divider"></div>
-      <div class="section">
-        <h4 class="ui header">Car Status</h4>
-        <code>
-          v: {{+v.toFixed(2)}} <br>
-          x: {{+x.toFixed(2)}} <br>
-          theta: {{+thetaDeg.toFixed(2)}} deg
+          <div style="height: 8px;"></div>
+          <div class="ui checkbox">
+            <input type="checkbox" name="example" v-model="cylinderTorque">
+            <label>Apply reaction torque to cylinder</label>
+          </div>
         </code>
       </div>
       <!-- ============ section divider ============ -->
@@ -90,7 +78,7 @@
           <input type="checkbox" name="example" v-model="lockViewToCar">
           <label>Lock view to car</label>
         </div>
-        <br>
+        <div style="height: 8px;"></div>
         <button class="ui button" onclick="findCenter()">Find center</button>
         <button class="ui button" onclick="findCar()">Find car</button>
       </div>
@@ -124,6 +112,34 @@
             </div>
             <input type="text" v-model.number.lazy="pidWheels[key]">
           </div>
+          <br>
+          Constant (k)<br>
+          (+:ccw(left)/-:cw(right))
+          <div class="ui mini labeled input">
+            <div class="ui label">
+              k
+            </div>
+            <input type="text" v-model.number.lazy="tauK">
+          </div>
+        </code>
+      </div>
+      <!-- ============ section divider ============ -->
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Controller Input</h4>
+        <code>
+          (+:ccw(left)/-:cw(right))<br>
+          inputTau: {{+inputTau.toFixed(2)}}
+        </code>
+      </div>
+      <div class="ui divider"></div>
+      <div class="section">
+        <h4 class="ui header">Car Status</h4>
+        <code>
+          t: {{+timeT.toFixed(2)}} <br>
+          v: {{+v.toFixed(2)}} <br>
+          x: {{+x.toFixed(2)}} <br>
+          theta: {{+thetaDeg.toFixed(2)}} deg
         </code>
       </div>
       <!-- ============ section divider ============ -->

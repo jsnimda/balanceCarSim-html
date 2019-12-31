@@ -108,7 +108,7 @@ function calc() {
   lastRem = timesPerFrameDec - timesPerFrame;
   let subDt = 1 / timesPerSecond;
   for (let i = 0; i < timesPerFrame; i++) {
-    let [a1x, a2x, a2y, alpha1, alpha2] = getAccelerations();
+    let [a1x, a2x, a2y, alpha1, alpha2] = app.cylinderTorque ? getAccelerations2() : getAccelerations();
     wheels.ax = a1x;
     wheels.alpha = -alpha1;
     cylinder.ax = a2x;
@@ -118,20 +118,54 @@ function calc() {
     doStep(cylinder, subDt);
     wheels.xIntegral += wheels.x * subDt;
     cylinder.thetaIntegral += cylinder.theta * subDt;
+    app.timeT += subDt;
   }
 }
 function getMotorTorque() {
   if (app.controllerConnected) {
     return readGamepadValue();
   }
+
   app.inputTau = app.pid.kp * -app.theta
   + app.pid.ki * -app.car.cylinder.omega 
   + app.pid.kd * -app.car.cylinder.thetaIntegral
   + app.pidWheels.kp * app.x
   + app.pidWheels.ki * app.car.wheels.vx 
-  + app.pidWheels.kd * app.car.wheels.xIntegral;
+  + app.pidWheels.kd * app.car.wheels.xIntegral
+  + app.tauK;
+  // app.inputTau = -0.09;
   return app.inputTau;
 }
+function getAccelerations2() {
+  let cos = Math.cos;
+  let sin = Math.sin;
+
+  let g = environment.gMPerS2;
+  let J1 = environment.inertiaWheelsKgM2;
+  let J2 = environment.inertiaCylinderKgM2;
+  let m1 = environment.massWheelsKg;
+  let m2 = environment.massCylinderKg;
+  let R1 = environment.wheelRadiusM;
+  let h = environment.cylinderCenterM;
+
+  let omega = cylinder.omega;
+  let theta = cylinder.theta;
+
+  let W1 = g * m1;
+  let W2 = g * m2;
+  let tau = getMotorTorque();
+  let I1 = J1;
+  let I2 = J2;
+
+  let a1x = -(R1*(I2*tau + h**2*m2*tau*cos(theta)**2 + h**2*m2*tau*sin(theta)**2 - R1*h**3*m2**2*omega**2*sin(theta)**3 + R1*h*m2*tau*cos(theta) - R1*h**3*m2**2*omega**2*cos(theta)**2*sin(theta) - I2*R1*h*m2*omega**2*sin(theta) + R1*W2*h**2*m2*cos(theta)*sin(theta)))/(I1*I2 + I2*R1**2*m1 + I2*R1**2*m2 + I1*h**2*m2*cos(theta)**2 + I1*h**2*m2*sin(theta)**2 + R1**2*h**2*m2**2*sin(theta)**2 + R1**2*h**2*m1*m2*cos(theta)**2 + R1**2*h**2*m1*m2*sin(theta)**2);
+  let a2x = -(I2*R1*tau - I1*h*tau*cos(theta) + I1*I2*h*omega**2*sin(theta) - R1**2*h*m1*tau*cos(theta) - I1*W2*h**2*cos(theta)*sin(theta) + R1*h**2*m2*tau*sin(theta)**2 + I1*h**3*m2*omega**2*sin(theta)**3 - R1**2*W2*h**2*m1*cos(theta)*sin(theta) + R1**2*h**3*m1*m2*omega**2*sin(theta)**3 + I1*h**3*m2*omega**2*cos(theta)**2*sin(theta) + I2*R1**2*h*m1*omega**2*sin(theta) + R1**2*h**3*m1*m2*omega**2*cos(theta)**2*sin(theta))/(I1*I2 + I2*R1**2*m1 + I2*R1**2*m2 + I1*h**2*m2*cos(theta)**2 + I1*h**2*m2*sin(theta)**2 + R1**2*h**2*m2**2*sin(theta)**2 + R1**2*h**2*m1*m2*cos(theta)**2 + R1**2*h**2*m1*m2*sin(theta)**2);
+  let a2y = -(h*(I1*tau*sin(theta) + I1*I2*omega**2*cos(theta) + I1*W2*h*sin(theta)**2 + R1**2*m1*tau*sin(theta) + R1**2*m2*tau*sin(theta) + I2*R1**2*m1*omega**2*cos(theta) + I2*R1**2*m2*omega**2*cos(theta) + R1**2*W2*h*m1*sin(theta)**2 + R1**2*W2*h*m2*sin(theta)**2 + I1*h**2*m2*omega**2*cos(theta)**3 + R1**2*h**2*m1*m2*omega**2*cos(theta)**3 + R1*h*m2*tau*cos(theta)*sin(theta) + I1*h**2*m2*omega**2*cos(theta)*sin(theta)**2 + R1**2*h**2*m1*m2*omega**2*cos(theta)*sin(theta)**2))/(I1*I2 + I2*R1**2*m1 + I2*R1**2*m2 + I1*h**2*m2*cos(theta)**2 + I1*h**2*m2*sin(theta)**2 + R1**2*h**2*m2**2*sin(theta)**2 + R1**2*h**2*m1*m2*cos(theta)**2 + R1**2*h**2*m1*m2*sin(theta)**2);
+  let alpha1 = (I2*tau + h**2*m2*tau*cos(theta)**2 + h**2*m2*tau*sin(theta)**2 - R1*h**3*m2**2*omega**2*sin(theta)**3 + R1*h*m2*tau*cos(theta) - R1*h**3*m2**2*omega**2*cos(theta)**2*sin(theta) - I2*R1*h*m2*omega**2*sin(theta) + R1*W2*h**2*m2*cos(theta)*sin(theta))/(I1*I2 + I2*R1**2*m1 + I2*R1**2*m2 + I1*h**2*m2*cos(theta)**2 + I1*h**2*m2*sin(theta)**2 + R1**2*h**2*m2**2*sin(theta)**2 + R1**2*h**2*m1*m2*cos(theta)**2 + R1**2*h**2*m1*m2*sin(theta)**2);
+  let alpha2 = -(- cos(theta)*sin(theta)*R1**2*h**2*m2**2*omega**2 + W2*sin(theta)*R1**2*h*m2 + W2*m1*sin(theta)*R1**2*h + tau*R1**2*m2 + m1*tau*R1**2 + tau*cos(theta)*R1*h*m2 + I1*W2*sin(theta)*h + I1*tau)/(I1*I2 + I2*R1**2*m1 + I2*R1**2*m2 + I1*h**2*m2*cos(theta)**2 + I1*h**2*m2*sin(theta)**2 + R1**2*h**2*m2**2*sin(theta)**2 + R1**2*h**2*m1*m2*cos(theta)**2 + R1**2*h**2*m1*m2*sin(theta)**2);
+
+  return [a1x, a2x, a2y, alpha1, alpha2];
+}
+
 function getAccelerations() {
   let cos = Math.cos;
   let sin = Math.sin;
